@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "ECOBLOC — Bloque ecológico"
+description = "Sitio didáctico para presentar un bloque de construcción experimental hecho con yeso, papel reciclado, EPS y aserrín. Expone materiales, elaboración, ensayos, aplicaciones y espacios claros para completar los datos del proyecto."
+version = "1.0.0"
+id = "artifacts/ecobloc-site"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23946
+
+[services.development]
+run = "pnpm --filter @workspace/ecobloc-site run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ecobloc-site", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/ecobloc-site/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23946"
+BASE_PATH = "/"
