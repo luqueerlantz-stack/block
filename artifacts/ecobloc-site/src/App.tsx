@@ -1,8 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import {
-  ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Beaker,
-  ChevronDown, FlaskConical, Layers3,
-  Leaf, Menu, Recycle, ShieldAlert, X,
+  ArrowDownRight, ArrowRight, ChevronDown, FlaskConical, Layers3, Menu, X,
 } from 'lucide-react';
 
 const navItems = [
@@ -126,18 +124,107 @@ const prototypes = [
   },
 ];
 
+const verificationTests = [
+  {
+    number: '01',
+    title: 'Compresión',
+    method: 'Ensayo de carga progresiva mediante prensa de compresión.',
+    status: 'DATO REPORTADO · PENDIENTE DE VALIDACIÓN',
+    details: [
+      { label: 'Resultado', value: 'Pendiente de ensayo.' },
+      { label: 'Evidencia', value: 'Carga máxima soportada y resistencia en MPa.' },
+      { label: 'Dato consignado', value: '12 kg/cm²; requiere validar las condiciones del ensayo.' },
+    ],
+  },
+  {
+    number: '02',
+    title: 'Peso y densidad',
+    method: 'Registro de masa y cálculo de densidad a partir del volumen exterior del bloque.',
+    status: 'DENSIDAD APARENTE CALCULADA',
+    details: [
+      { label: 'Dimensiones', value: '40 × 30 × 20 cm.' },
+      { label: 'Volumen exterior', value: '0,024 m³ (24 litros).' },
+      { label: 'Prototipo 02', value: '8 kg · 333,33 kg/m³.' },
+      { label: 'Prototipo 03', value: '15 kg · 625 kg/m³.' },
+    ],
+  },
+  {
+    number: '03',
+    title: 'Absorción de agua',
+    method: 'Comparación de masa seca y masa después de una inmersión controlada.',
+    status: 'DATO REPORTADO · PENDIENTE DE VALIDACIÓN',
+    details: [
+      { label: 'Resultado', value: 'Pendiente de ensayo.' },
+      { label: 'Evidencia', value: 'Porcentaje de absorción de agua.' },
+      { label: 'Dato consignado', value: '15 %; falta documentar el ensayo.' },
+    ],
+  },
+  {
+    number: '04',
+    title: 'Aislamiento térmico',
+    method: 'Comparación de temperaturas entre las caras del bloque bajo condiciones controladas.',
+    status: 'DATO REPORTADO · SIN MEDICIÓN EXPERIMENTAL',
+    details: [
+      { label: 'Resultado', value: 'Sin mediciones experimentales.' },
+      { label: 'Observación', value: 'La incorporación de EPS presenta potencial para contribuir al aislamiento térmico.' },
+      { label: 'Dato consignado', value: '0,08 W/mK; valor aún no medido experimentalmente.' },
+    ],
+  },
+  {
+    number: '05',
+    title: 'Reacción al fuego',
+    method: 'No se proporcionó un método ni resultados de ensayo para esta propiedad.',
+    status: 'SIN DATOS DEL PROYECTO',
+    details: [
+      { label: 'Registro', value: 'Resultado no informado.' },
+    ],
+  },
+  {
+    number: '06',
+    title: 'Aislamiento acústico',
+    method: 'Medición de transmisión sonora a través del bloque.',
+    status: 'DATO REPORTADO · SIN MEDICIÓN EXPERIMENTAL',
+    details: [
+      { label: 'Resultado', value: 'Sin mediciones experimentales.' },
+      { label: 'Dato consignado', value: '40 dB; valor aún no medido experimentalmente.' },
+    ],
+  },
+];
+
+const comparisonRows = [
+  {
+    criterion: 'Densidad aparente',
+    ecobloc: 'Prototipo 02: 333,33 kg/m³; prototipo 03: 625 kg/m³.',
+    reference: 'AAC Ytong 4/600: 600 kg/m³ de densidad seca.',
+  },
+  {
+    criterion: 'Masa para 24 litros',
+    ecobloc: 'Prototipo 02: 8 kg; prototipo 03: 15 kg.',
+    reference: '14,4 kg estimados a igual volumen, a partir de 600 kg/m³.',
+  },
+  {
+    criterion: 'Compresión',
+    ecobloc: '12 kg/cm² consignados (≈1,18 MPa si se interpreta como kgf/cm²); validación pendiente.',
+    reference: '4,0 MPa de resistencia media a compresión según ficha.',
+  },
+  {
+    criterion: 'Conductividad térmica',
+    ecobloc: '0,08 W/mK consignados; sin medición experimental.',
+    reference: '0,19 W/mK según ficha técnica.',
+  },
+];
+
 const faqs = [
-  ['¿Es resistente al agua?', 'No se ha documentado un ensayo de absorción o exposición al agua. No debe asumirse que sea resistente al agua.'],
-  ['¿Soporta carga?', 'No hay datos de compresión ni certificación estructural. No usar como elemento portante ni para aplicaciones que impliquen cargas.'],
-  ['¿Es inflamable?', 'No se han realizado ensayos de reacción al fuego. El EPS requiere especial cautela; no se puede afirmar que el material sea seguro frente al fuego.'],
-  ['¿Cuánto cuesta fabricarlo?', 'El costo por unidad no está calculado. Se necesita registrar cantidades reales, precios locales y desperdicio del proceso.'],
-  ['¿Se puede replicar en casa?', 'El proceso está descrito como una guía de investigación, pero faltan cantidades y condiciones validadas. Usa protección adecuada y no destines prototipos a una obra.'],
+  ['¿Es resistente al agua?', 'El proyecto consigna un 15 % de absorción, pero el ensayo y sus condiciones aún deben documentarse. Este dato no permite afirmar que el bloque sea resistente al agua.'],
+  ['¿Soporta carga?', 'Se consigna un valor de compresión de 12 kg/cm², pendiente de validación con un ensayo documentado. No basta para recomendar el bloque como elemento portante.'],
+  ['¿Cómo se comporta frente al fuego?', 'No se proporcionaron resultados de reacción al fuego. Como la mezcla incluye EPS, no se debe afirmar que el bloque sea resistente al fuego sin un ensayo específico.'],
+  ['¿Cuánto cuesta fabricarlo?', 'El costo por unidad no se ha calculado. Harían falta precios locales, cantidades por bloque, mano de obra y registro de pérdidas.'],
+  ['¿Se puede replicar en casa?', 'La página describe pruebas experimentales, incluido el remojo del papel durante tres días y el secado. Las proporciones y prestaciones no están validadas como una receta de construcción.'],
 ];
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
-  const [galleryOpen, setGalleryOpen] = useState(false);
   const [compareMode, setCompareMode] = useState<'tabla' | 'resumen'>('tabla');
   const [contactState, setContactState] = useState('');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -355,15 +442,17 @@ function App() {
 
       <section id="ensayos" className="section-wrap tests-section section-pad">
         <div className="section-kicker">Verificación</div>
-        <div className="tests-header"><div><h2 className="section-title">Lo que falta<br />poner a prueba.</h2><p className="section-aside">No se han documentado ensayos con resultados verificables para esta publicación.</p></div><div className="evidence-badge"><FlaskConical size={20} /><span className="mono">RESULTADOS<br />PUBLICADOS</span><strong>NINGUNO</strong></div></div>
+        <div className="tests-header"><div><h2 className="section-title">Según nuestra<br />investigación.</h2></div><div className="evidence-badge"><FlaskConical size={20} /><span className="mono">ESTADO DE LOS DATOS</span><strong>PARCIALES</strong></div></div>
         <div className="test-status">
-          <div className="test-status-top"><span className="status-outline"><span /> SIN ENSAYOS DOCUMENTADOS</span><span className="mono">ESTADO DE EVIDENCIA / ACTUALIZAR CON REGISTROS</span></div>
+          <div className="test-status-top"><span className="status-outline"><span /> DATOS REPORTADOS Y ENSAYOS PENDIENTES</span><span className="mono">VALORES DEL PROYECTO / VALIDACIÓN SEGÚN MÉTODO</span></div>
           <div className="test-table">
-            {['Compresión', 'Peso y densidad', 'Absorción de agua', 'Aislamiento térmico', 'Reacción al fuego', 'Aislamiento acústico'].map((label, i) => <div className="test-row" key={label} data-testid={`row-test-${i + 1}`}><span className="test-number mono">{String(i + 1).padStart(2, '0')}</span><strong>{label}</strong><span className="test-method">Método y evidencia por documentar</span><span className="test-value mono">—</span><span className="test-status-chip">SIN RESULTADO PUBLICADO</span></div>)}
+            {verificationTests.map((test) => <article className="test-row" key={test.number} data-testid={`row-test-${test.number}`}>
+              <div className="test-row-head"><span className="test-number mono">{test.number}</span><h3>{test.title}</h3><span className="test-status-chip">{test.status}</span></div>
+              <p className="test-method"><strong>Método:</strong> {test.method}</p>
+              <dl className="test-data-list">{test.details.map((detail) => <div key={detail.label}><dt>{detail.label}</dt><dd>{detail.value}</dd></div>)}</dl>
+            </article>)}
           </div>
-          <div className="no-cert"><ShieldAlert size={19} /><div><strong>Este bloque no cuenta con certificación estructural.</strong><span>No usar como elemento portante. No se han verificado desempeño, seguridad frente al fuego ni resistencia al agua.</span></div></div>
         </div>
-        <div className="limitations"><span className="eyebrow">LIMITACIONES + PRÓXIMOS PASOS</span><p>Registrar la receta por lote, definir métodos de ensayo, documentar muestras y condiciones, y contrastar resultados con referencias pertinentes antes de comunicar prestaciones.</p><a href="#contacto" className="text-link">Proponer una colaboración <ArrowRight size={15} /></a></div>
       </section>
 
       <section id="comparativa" className="comparison-section section-pad">
@@ -374,65 +463,68 @@ function App() {
             <button type="button" className={compareMode === 'resumen' ? 'selected' : ''} onClick={() => setCompareMode('resumen')} aria-pressed={compareMode === 'resumen'} data-testid="button-compare-summary">Resumen</button>
           </div></div>
           {compareMode === 'tabla' ? <div className="comparison-table" data-testid="comparison-table">
-            <div className="compare-row compare-labels"><span>CRITERIO</span><span>ECOBLOC / PROTOTIPO</span><span>REFERENCIA CONVENCIONAL</span></div>
-            {['Peso por unidad', 'Costo por unidad', 'Aislamiento', 'Impacto ambiental', 'Resistencia'].map((item, i) => <div className="compare-row" key={item} data-testid={`row-comparison-${i + 1}`}><strong>{item}</strong><span>Por medir / calcular</span><span>Definir producto y fuente</span></div>)}
-          </div> : <div className="compare-summary" data-testid="comparison-summary"><div><span className="eyebrow">PROTOTIPO EXPERIMENTAL</span><p>Datos de ECOBLOC por registrar y ensayar.</p></div><ArrowRight size={22} /><div><span className="eyebrow">BLOQUE DE REFERENCIA</span><p>Seleccionar tipo, fabricante y fuente técnica comparable.</p></div></div>}
-          <p className="comparison-foot mono">NO ES UNA COMPARACIÓN DE DESEMPEÑO: FALTAN DATOS MEDIDOS Y REFERENCIAS IDENTIFICABLES.</p>
+            <div className="compare-row compare-labels"><span>CRITERIO</span><span>ECOBLOC / PROTOTIPOS</span><span>BLOQUE AAC YTONG 4/600</span></div>
+            {comparisonRows.map((row, index) => <div className="compare-row" key={row.criterion} data-testid={`row-comparison-${index + 1}`}><strong>{row.criterion}</strong><span><b className="compare-cell-label">ECOBLOC / PROTOTIPOS</b>{row.ecobloc}</span><span><b className="compare-cell-label">BLOQUE AAC YTONG 4/600</b>{row.reference}</span></div>)}
+          </div> : <div className="compare-summary" data-testid="comparison-summary"><div><span className="eyebrow">ECOBLOC / PROTOTIPO 03</span><p>625 kg/m³ y 15 kg para 24 litros: densidad 4,2 % mayor que la referencia AAC.</p></div><ArrowRight size={22} /><div><span className="eyebrow">YTONG AAC 4/600</span><p>600 kg/m³ de densidad seca y 14,4 kg estimados para el mismo volumen de 24 litros.</p></div></div>}
+          <p className="comparison-source">Referencia: <a href="https://www.aeratedconcrete.co.nz/documents/AAC-Block-Lintel-Specifications.pdf" target="_blank" rel="noreferrer">ficha técnica Ytong AAC 4/600 de Aerated Concrete Ltd</a>, que indica bloque exterior de 400 × 240 × 200 mm, densidad seca de 600 kg/m³, resistencia media de 4,0 MPa y conductividad térmica de 0,19 W/mK. Los 14,4 kg son una estimación a igual volumen (24 litros), calculada con la densidad seca de la ficha.</p>
         </div>
       </section>
 
       <section id="impacto" className="impact-section section-pad">
         <div className="section-wrap impact-layout">
-          <div>
+          <div className="impact-copy">
             <div className="section-kicker">Circularidad</div>
-            <h2 className="section-title">El impacto no se<br />presume. Se mide.</h2>
-            <p className="impact-intro">Incorporar residuos en un prototipo no basta para demostrar un beneficio ambiental. Hace falta cuantificar, comparar y explicar el sistema.</p>
-            <div className="impact-questions">
-              <div><Recycle size={20} /><span>Residuos incorporados por bloque</span><b>Por cuantificar</b></div>
-              <div><Layers3 size={20} /><span>Material reutilizado por superficie</span><b>Por cuantificar</b></div>
-              <div><Leaf size={20} /><span>Balance ambiental comparativo</span><b>Sin evaluar</b></div>
+            <h2 className="section-title">Aprovechamiento<br />de materiales.</h2>
+            <p className="impact-intro">Indicadores volumétricos preliminares de la mezcla experimental, calculados a partir de las cantidades registradas.</p>
+            <div className="impact-indicators">
+              <article className="impact-indicator">
+                <strong>15,38 %</strong>
+                <h3>RESIDUOS RECUPERADOS INCORPORADOS</h3>
+                <p>Porcentaje volumétrico de residuos recuperados incorporados a la mezcla: papel reciclado y aserrín procedente de carpinterías.</p>
+                <dl>
+                  <div><dt>Papel reciclado</dt><dd>0,5 L</dd></div>
+                  <div><dt>Aserrín recuperado</dt><dd>0,5 L</dd></div>
+                  <div><dt>Total de residuos recuperados</dt><dd>1 L</dd></div>
+                  <div><dt>Volumen total de mezcla</dt><dd>6,5 L</dd></div>
+                </dl>
+                <small>El EPS no se incluye en este indicador porque fue adquirido comercialmente.</small>
+              </article>
+              <article className="impact-indicator">
+                <strong>7,69 %</strong>
+                <h3>PAPEL RECICLADO REUTILIZADO</h3>
+                <p>Proporción volumétrica de papel recuperado incorporado a la mezcla experimental, utilizando 0,5 litros por cada 6,5 litros de mezcla total.</p>
+                <div className="paper-preparation"><span className="eyebrow">PREPARACIÓN</span><ol><li>Triturado</li><li>Remojado</li><li>Licuado para obtener pulpa</li></ol></div>
+                <p className="paper-note">El aprovechamiento del papel recuperado permite reincorporar fibras recicladas en la elaboración de un nuevo material constructivo.</p>
+              </article>
             </div>
+            <section className="impact-balance" aria-labelledby="impact-balance-title">
+              <h3 id="impact-balance-title">BALANCE AMBIENTAL PRELIMINAR</h3>
+              <dl className="impact-balance-list">
+                <div><dt>Residuos recuperados / mezcla total</dt><dd>15,38 %</dd></div>
+                <div><dt>Residuos recuperados / componentes sólidos</dt><dd>20 %</dd></div>
+                <div><dt>Papel reutilizado / mezcla total</dt><dd>7,69 %</dd></div>
+                <div><dt>Agua utilizada</dt><dd>1,5 L</dd></div>
+                <div><dt>Yeso comercial</dt><dd>3 L</dd></div>
+                <div><dt>EPS comercial</dt><dd>1 L</dd></div>
+              </dl>
+            </section>
           </div>
-          <div className="impact-panel">
-            <span className="mono">LO QUE HABRÍA QUE REGISTRAR</span>
-            <div className="impact-equation"><span>Entradas</span><i>+</i><span>Proceso</span><i>+</i><span>Fin de vida</span></div>
-            <p>Origen y masa de cada componente, energía y agua utilizadas, transporte, pérdidas y escenario de referencia.</p>
-            <div className="impact-stamp">EVIDENCIA<br /><strong>PENDIENTE</strong></div>
-            <span className="mono impact-bottom">SIN DECLARACIÓN DE IMPACTO VALIDADA</span>
-          </div>
-        </div>
-      </section>
-
-      <section id="aplicaciones" className="section-wrap application-section section-pad">
-        <div className="section-kicker">Escenarios de uso</div>
-        <div className="section-heading-row"><h2 className="section-title">Pensar usos.<br /><span className="muted-title">Marcar límites.</span></h2><p className="section-aside">Las aplicaciones de esta lista son escenarios para investigar, no recomendaciones de construcción.</p></div>
-        <div className="application-grid">
-          <div className="application-list">
-            {['Muros divisorios', 'Cerramientos no estructurales', 'Paneles aislantes', 'Vivienda de bajo costo', 'Mobiliario'].map((item, i) => <div className="application-item" key={item}><span className="mono">{String(i + 1).padStart(2, '0')}</span><strong>{item}</strong><span>IDEA A EVALUAR</span><ArrowUpRight size={16} /></div>)}
-          </div>
-          <aside className="use-warning"><ShieldAlert size={22} /><span className="eyebrow">USO RESPONSABLE</span><h3>Prototipo no es permiso de obra.</h3><p>Sin ensayos y revisión profesional, no recomendar como elemento portante, cerramiento expuesto, panel con desempeño térmico/acústico declarado ni componente con requisitos de fuego o humedad.</p><span className="mono">USO CONSTRUCTIVO / NO VALIDADO</span></aside>
-        </div>
-      </section>
-
-      <section id="galeria" className="gallery-section section-pad">
-        <div className="section-wrap">
-          <div className="section-kicker">Registro visual</div>
-          <div className="gallery-head"><h2 className="section-title">La materia,<br />sin maquillaje.</h2><p>Una imagen de muestra disponible. Las fotografías de proceso y las iteraciones reales se incorporan desde el archivo del proyecto.</p></div>
-          <div className="gallery-rail" data-testid="gallery-rail" aria-label="Galería de imágenes">
-            <button className="gallery-image-card" type="button" onClick={() => setGalleryOpen(true)} data-testid="button-gallery-specimen">
-              <img src="/ecobloc-prototype.jpg" alt="Vista cercana del bloque compuesto experimental ECOBLOC" loading="lazy" />
-              <span className="gallery-caption"><span className="mono">01 / MUESTRA</span><span>Prototipo experimental <ArrowUpRight size={15} /></span></span>
-            </button>
-            {['Preparación de papel', 'Mezcla y moldeado', 'Desmolde y secado'].map((label, i) => <div className="gallery-pending" key={label} data-testid={`gallery-placeholder-${i + 1}`}><div className="pending-frame"><Beaker size={22} /><span className="mono">FOTO POR INCORPORAR</span></div><span className="gallery-caption"><span className="mono">0{String(i + 2)} / PROCESO</span><span>{label}</span></span></div>)}
-          </div>
-          <div className="gallery-foot"><span className="mono">DESLIZA PARA EXPLORAR</span><div><ArrowLeft size={14} /><ArrowRight size={14} /></div><span>Las imágenes pendientes deben ser fotografías del proyecto.</span></div>
+          <figure className="impact-photo">
+            <img src="/images/sugarcrete-reference.jpg" alt="Bloques de material constructivo experimental elaborados con fibras y residuos vegetales." loading="lazy" />
+            <figcaption>El proyecto explora el aprovechamiento de residuos de papel y madera mediante su incorporación en un material constructivo experimental. Esta propuesta busca promover la valorización de materiales recuperables y explorar alternativas de reutilización dentro del sector de la construcción.</figcaption>
+          </figure>
         </div>
       </section>
 
       <section id="equipo" className="section-wrap team-section section-pad">
         <div className="section-kicker">Autoría</div>
-        <div className="team-layout"><div><h2 className="section-title">Un proyecto<br />en construcción.</h2><p>La información del equipo se presenta como campo editorial pendiente. No se publican nombres o afiliaciones sin confirmación.</p></div>
-          <div className="team-placeholder"><div className="team-avatar">+</div><div><span className="mono">EQUIPO / AUTORÍA</span><h3>Nombres por incorporar</h3><p>Roles, institución y asesoría: completar con información confirmada.</p></div><ArrowUpRight size={17} /></div>
+        <div className="team-layout"><div><h2 className="section-title">Un proyecto<br />en construcción.</h2><p>Integrantes del grupo responsable de esta investigación.</p></div>
+          <div className="team-members"><span className="mono">INTEGRANTES DEL GRUPO</span><ul>
+            <li>CORRALES SEJAS KELLY KENDDY</li>
+            <li>LOPEZ FLORES ALISSON</li>
+            <li>PUMA MIRANDA FERNANDO</li>
+            <li>VALLEJOS NINA YESIBEL</li>
+          </ul></div>
         </div>
       </section>
 
@@ -472,13 +564,8 @@ function App() {
           <p>Un proyecto estudiantil de investigación material.<br />Construcción sostenible: pregunta, no promesa.</p>
           <nav aria-label="Enlaces de pie de página">{[['Materiales','#materiales'],['Proceso','#proceso'],['Ensayos','#ensayos'],['Preguntas','#preguntas']].map(([text, href]) => <a href={href} key={href} data-testid={`link-footer-${text.toLowerCase()}`}>{text}</a>)}</nav>
         </div>
-        <div className="section-wrap footer-bottom"><span className="mono">© {year} ECOBLOC / NOMBRE PROVISIONAL</span><span className="mono">INSTITUCIÓN / POR CONFIRMAR</span><a href="#inicio" className="mono" data-testid="link-back-top">VOLVER ARRIBA ↑</a></div>
+        <div className="section-wrap footer-bottom"><span className="mono">© {year} ECOBLOC / BLOQUE ECOLÓGICO</span><span className="mono">INSTITUCIÓN / POR CONFIRMAR</span><a href="#inicio" className="mono" data-testid="link-back-top">VOLVER ARRIBA ↑</a></div>
       </footer>
-
-      {galleryOpen && <div className="overlay" role="dialog" aria-modal="true" aria-label="Vista ampliada del prototipo" onClick={() => setGalleryOpen(false)} onKeyDown={(event) => { if (event.key === 'Escape') setGalleryOpen(false); }} data-testid="lightbox">
-        <button className="lightbox-close" type="button" autoFocus onClick={() => setGalleryOpen(false)} aria-label="Cerrar imagen ampliada" data-testid="button-close-lightbox"><X size={22} /></button>
-        <figure className="lightbox-figure" onClick={(event) => event.stopPropagation()}><img className="modal-image" src="/ecobloc-prototype.jpg" alt="Prototipo de bloque compuesto con yeso, papel, EPS y aserrín" /><figcaption className="mono">MUESTRA / 00 — PROTOTIPO EXPERIMENTAL. DATOS DE RECETA PENDIENTES.</figcaption></figure>
-      </div>}
     </main>
   );
 }
