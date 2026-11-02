@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import {
   ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Beaker,
-  ChevronDown, ClipboardList, FlaskConical, Layers3,
+  ChevronDown, FlaskConical, Layers3,
   Leaf, Menu, Recycle, ShieldAlert, X,
 } from 'lucide-react';
 
@@ -24,13 +24,106 @@ const materials = [
 ];
 
 const steps = [
-  ['Recolección y clasificación', 'Separar los componentes y registrar su procedencia, estado y preparación. Evitar contaminantes no identificados.', 'Materiales y herramientas: por registrar'],
-  ['Preparación del papel', 'Remojar y triturar el papel hasta obtener pulpa. Documentar el método para que pueda repetirse.', 'Tiempo y herramientas: por registrar'],
-  ['Preparación de agregados', 'Acondicionar el aserrín y las bolitas de EPS; anotar tamaño y condición de cada material.', 'Tiempo y herramientas: por registrar'],
-  ['Dosificación y mezcla', 'Medir cada componente según la receta real. Incorporar agua y yeso de forma controlada.', 'Cantidades y herramientas: por registrar'],
-  ['Moldeado y compactación', 'Llenar el molde y aplicar el método de compactación utilizado, sin asumir densidad uniforme.', 'Molde y método: por registrar'],
-  ['Fraguado y desmolde', 'Registrar condiciones y momento de desmolde observados en cada prototipo.', 'Duración: por documentar'],
-  ['Secado y curado', 'Dejar el prototipo en condiciones registradas. No considerar listo para uso sin evaluación.', 'Condiciones y duración: por documentar'],
+  {
+    number: 1,
+    title: 'Recolección y clasificación',
+    description: 'Separación de los materiales que se utilizarán en la elaboración del bloque.',
+    detailLabel: 'Materiales y herramientas',
+    detail: 'Materiales: yeso, papel, madera y bolitas de plastoformo. Herramientas: bandejas, pala de mano y guantes para la mezcla.',
+    image: '/images/process-etapa-01.jpg',
+    alt: 'Registro fotográfico de la recolección y clasificación de materiales.',
+  },
+  {
+    number: 2,
+    title: 'Preparación del papel',
+    description: 'Acondicionar el papel reciclado antes de incorporarlo a la mezcla.',
+    detailLabel: 'Tiempo y herramientas',
+    detail: 'Remojado en agua durante 3 días y posteriormente licuado.',
+    image: '/images/process-etapa-02.jpg',
+    alt: 'Registro fotográfico de la preparación del papel reciclado.',
+  },
+  {
+    number: 3,
+    title: 'Preparación de agregados',
+    description: 'Mezclar los agregados antes de incorporarlos a la preparación.',
+    detailLabel: 'Tiempo y herramientas',
+    detail: 'Mezcla de todos los agregados con la ayuda de guantes y pala de mano.',
+    image: '/images/process-etapa-03.jpg',
+    alt: 'Registro fotográfico de la preparación de los agregados.',
+  },
+  {
+    number: 4,
+    title: 'Dosificación y mezcla',
+    description: 'Dosificar los componentes con las proporciones registradas para esta preparación.',
+    detailLabel: 'Cantidades y herramientas',
+    detail: 'Yeso: 3 litros — 46,15 %; papel reciclado: 0,5 litros — 7,69 %; EPS: 1 litro — 15,38 %; aserrín: 0,5 litros — 7,69 %.',
+    image: '/images/process-etapa-04.jpg',
+    alt: 'Registro fotográfico de la dosificación y mezcla de los componentes.',
+  },
+  {
+    number: 6,
+    title: 'Moldeado y compactación',
+    description: 'Colocar la mezcla en el molde y compactarla por capas.',
+    detailLabel: 'Molde y método',
+    detail: 'Molde de un bloque con tres aberturas circulares. La mezcla se colocó en tres capas y se utilizó una varilla para evitar espacios vacíos.',
+    image: '/images/process-etapa-06.jpg',
+    alt: 'Registro fotográfico del moldeado y compactación del bloque.',
+  },
+  {
+    number: 7,
+    title: 'Secado y desmolde',
+    description: 'Dejar secar el bloque antes de retirarlo del molde y continuar el secado.',
+    detailLabel: 'Condiciones y duración',
+    detail: 'Se dejó secar durante unos 3 días antes del desmolde. Luego se dejó secar una semana más fuera del molde.',
+    image: '/images/process-etapa-07.jpg',
+    alt: 'Registro fotográfico del bloque durante el secado y desmolde.',
+  },
+];
+
+const prototypes = [
+  {
+    id: '01',
+    iteration: 'LA EXPERIMENTAL',
+    status: 'FORMULACIÓN NO VIABLE',
+    title: 'Primera mezcla experimental.',
+    image: '/images/prototipo-01.jpg',
+    alt: 'Fotografía de la primera mezcla experimental.',
+    details: [
+      { label: 'Objetivo', text: 'Evaluar el comportamiento inicial de la mezcla sin incorporar viruta de madera.' },
+      { label: 'Mezcla', text: 'Se mantuvieron las proporciones de referencia de los demás componentes. Se eliminó la viruta de madera y se utilizó 1 litro de agua.' },
+      { label: 'Observaciones', text: 'La mezcla presentó una consistencia inadecuada y se identificaron zonas huecas debido a la cantidad insuficiente de agua y a una distribución irregular del material.' },
+      { label: 'Resultado', text: 'La formulación no presentó condiciones adecuadas para continuar con las pruebas.' },
+    ],
+  },
+  {
+    id: '02',
+    iteration: 'PROTOTIPO 02 — AJUSTE DE LA MEZCLA',
+    status: 'BUEN COMPORTAMIENTO',
+    title: 'Ajuste de la mezcla.',
+    image: '/images/prototipo-02.jpg',
+    alt: 'Fotografía del bloque elaborado en la segunda prueba de mezcla.',
+    details: [
+      { label: 'Objetivo', text: 'Evaluar la consistencia y el peso del bloque manteniendo la proporción de yeso y EPS utilizada en esta prueba.' },
+      { label: 'Observaciones', text: 'Se obtuvo una buena consistencia y un bloque ligero de aproximadamente 8 kg. Sin embargo, varias bolitas de plastoformo quedaron alrededor del cilindro, por lo que se identificó la necesidad de ajustar su cantidad y distribución.' },
+      { label: 'Resultado', text: 'Peso registrado: 8 kg.' },
+      { label: 'Conclusión', text: 'La mezcla presentó resultados favorables, aunque se requiere optimizar la incorporación del EPS.' },
+    ],
+  },
+  {
+    id: '03',
+    iteration: 'ITERACIÓN 03 — INCORPORACIÓN DE VIRUTA DE MADERA',
+    status: 'MEZCLA DE MAYOR CONSISTENCIA',
+    title: 'Incorporación de viruta de madera.',
+    image: '/images/prototipo-03.jpg',
+    alt: 'Fotografía de la mezcla con viruta de madera incorporada.',
+    details: [
+      { label: 'Objetivo', text: 'Evaluar el efecto de incrementar la cantidad de viruta de madera en la mezcla.' },
+      { label: 'Modificación', text: 'Se incorporó una jarra adicional de viruta de madera respecto a la formulación anterior.' },
+      { label: 'Observaciones', text: 'La mezcla presentó una consistencia muy buena, pero el tiempo de secado fue considerablemente mayor.' },
+      { label: 'Resultado', text: 'Peso registrado: 15 kg.' },
+      { label: 'Conclusión', text: 'El incremento de viruta permitió obtener una mezcla de buena consistencia, pero produjo un bloque de mayor peso y un proceso de secado más prolongado.' },
+    ],
+  },
 ];
 
 const faqs = [
@@ -219,38 +312,22 @@ function App() {
         <div className="section-kicker">Método</div>
         <div className="section-heading-row">
           <h2 className="section-title">Del residuo<br />al prototipo.</h2>
-          <p className="section-aside">Secuencia de trabajo propuesta para la documentación. Completar tiempos y herramientas con los registros de fabricación.</p>
+          <p className="section-aside">Registro fotográfico de la selección de materiales, preparación de la mezcla, moldeo y secado del prototipo.</p>
         </div>
         <div className="process-layout">
           <div className="timeline">
-            {steps.map(([title, desc, tools], index) => <article className="process-step" key={title} data-testid={`step-process-${index + 1}`}>
-              <div className="step-marker mono">{String(index + 1).padStart(2, '0')}</div>
+            {steps.map((step) => <article className="process-step" key={step.number} data-testid={`step-process-${step.number}`}>
+              <div className="step-top">
+                <div className="step-marker mono">{String(step.number).padStart(2, '0')}</div>
+                <div className="eyebrow">ETAPA {String(step.number).padStart(2, '0')}</div>
+              </div>
+              <img className="step-image" src={step.image} alt={step.alt} loading="lazy" />
               <div className="step-content">
-                <div className="eyebrow">ETAPA {String(index + 1).padStart(2, '0')}</div>
-                <h3>{title}</h3><p>{desc}</p>
-                <div className="step-tools mono">{tools}</div>
+                <h3>{step.title}</h3><p>{step.description}</p>
+                <div className="step-tools"><strong>{step.detailLabel}</strong>{step.detail}</div>
               </div>
             </article>)}
           </div>
-          <p className="timeline-hint mono">RECORRE LAS 7 ETAPAS →</p>
-          <aside className="recipe-card">
-            <div className="recipe-head"><ClipboardList size={18} /><span className="mono">REGISTRO DE RECETA</span><span className="recipe-status">INCOMPLETO</span></div>
-            <h3>Una receta replicable<br />empieza con datos.</h3>
-            <p>Los campos técnicos permanecen pendientes hasta ingresar una formulación real del equipo.</p>
-            <dl>
-              <div><dt>Yeso</dt><dd>—</dd></div><div><dt>Papel / pulpa</dt><dd>—</dd></div>
-              <div><dt>EPS</dt><dd>—</dd></div><div><dt>Aserrín</dt><dd>—</dd></div>
-              <div><dt>Agua</dt><dd>—</dd></div><div><dt>Relación agua / yeso</dt><dd>—</dd></div>
-              <div><dt>Molde / dimensiones</dt><dd>—</dd></div>
-            </dl>
-            <div className="calculator-box">
-              <label htmlFor="block-count" className="eyebrow">CALCULADORA DE LOTE</label>
-              <div className="calculator-input"><input id="block-count" type="number" min="1" placeholder="N.º de bloques" disabled aria-describedby="calc-note" data-testid="input-block-count" /><button type="button" disabled title="Disponible cuando se complete la receta" data-testid="button-calculate">Calcular</button></div>
-              <p id="calc-note" className="calc-note">No disponible: faltan cantidades base validadas por bloque.</p>
-            </div>
-            <div className="safety-note"><ShieldAlert size={17} /><p><strong>Seguridad:</strong> evitar inhalar polvo de yeso y aserrín. Usar protección respiratoria y guantes, trabajar con ventilación y seguir las indicaciones de los materiales.</p></div>
-            <div className="video-placeholder"><span className="mono">DOCUMENTACIÓN AUDIOVISUAL</span><p>Video del proceso: por incorporar</p></div>
-          </aside>
         </div>
       </section>
 
@@ -259,18 +336,20 @@ function App() {
           <div className="section-kicker">Iteraciones</div>
           <div className="section-heading-row">
             <h2 className="section-title">Prototipos y<br />aprendizajes.</h2>
-            <p className="section-aside">Cada iteración necesita receta, registro fotográfico y observaciones comparables. No se atribuyen mejoras sin evidencia.</p>
+            <p className="section-aside">Registro de las formulaciones probadas, sus observaciones y los ajustes realizados entre iteraciones.</p>
           </div>
           <div className="prototype-track">
-            {['Prototipo 01', 'Prototipo 02', 'Mezcla final'].map((name, i) => <article className="prototype-card" key={name} data-testid={`card-prototype-${i + 1}`}>
-              <div className="prototype-image"><span className="mono">IMAGEN / POR INCORPORAR</span><div className="prototype-slab" /></div>
-              <div className="prototype-meta"><span className="mono">ITERACIÓN {String(i + 1).padStart(2, '0')}</span><span className="prototype-flag">{i === 2 ? 'PENDIENTE' : 'REGISTRO PENDIENTE'}</span></div>
-              <h3>{name}</h3>
-              <p>Proporciones, observaciones y cambios: completar con la bitácora del proyecto.</p>
-              <div className="prototype-facts"><span>MEZCLA <b>—</b></span><span>RESULTADO <b>Por documentar</b></span></div>
+            {prototypes.map((prototype) => <article className="prototype-card" key={prototype.id} data-testid={`card-prototype-${prototype.id}`}>
+              <img className="prototype-image" src={prototype.image} alt={prototype.alt} loading="lazy" />
+              <div className="prototype-meta"><span className="mono">{prototype.iteration}</span><span className="prototype-flag">{prototype.status}</span></div>
+              <h3>{prototype.title}</h3>
+              <div className="prototype-details">
+                {prototype.details.map((detail) => <div className="prototype-detail" key={detail.label}>
+                  <h4>{detail.label}</h4><p>{detail.text}</p>
+                </div>)}
+              </div>
             </article>)}
           </div>
-          <p className="prototype-disclaimer mono">“MEZCLA FINAL” ES UN CAMPO EDITABLE; NO INDICA QUE EXISTA UNA FORMULACIÓN VALIDADA.</p>
         </div>
       </section>
 
