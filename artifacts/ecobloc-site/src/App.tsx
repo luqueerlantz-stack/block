@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import {
   ArrowDown, ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Beaker,
-  ChevronDown, CircleHelp, ClipboardList, FlaskConical, Layers3,
+  ChevronDown, ClipboardList, FlaskConical, Layers3,
   Leaf, Menu, MoveUpRight, Recycle, ShieldAlert, X,
 } from 'lucide-react';
 
@@ -165,17 +165,12 @@ function App() {
       <section id="motivacion" className="section-wrap motivation section-pad">
         <div className="section-kicker">00 / Punto de partida</div>
         <div className="motivation-grid">
-          <h2 className="section-title">Una pregunta<br />hecha materia.</h2>
+          <h2 className="section-title motivation-title">Revalorización de residuos para una construcción más sostenible.</h2>
           <div className="motivation-text">
-            <p>¿Pueden residuos cotidianos formar parte de un nuevo material de construcción? Este proyecto explora una mezcla experimental con yeso, papel recuperado, bolitas de EPS y aserrín.</p>
-            <p>La idea no es presentar una solución terminada, sino hacer visible el camino: qué se incorpora, qué se observa y qué tendría que comprobarse antes de proponer cualquier uso.</p>
-            <div className="objective-note"><span className="mono">OBJETIVO / 01</span><strong>Prototipar y documentar un bloque compuesto, con preguntas abiertas y evidencia verificable.</strong></div>
+            <p>La industria de la construcción demanda materiales convencionales cuya producción implica consumo de recursos naturales y energía. Paralelamente, residuos como el papel, los restos de madera y el poliestireno expandido (plastoformo) representan una oportunidad para desarrollar alternativas constructivas con criterios de aprovechamiento y economía circular.</p>
+            <p>Este proyecto propone investigar la incorporación de yeso, viruta de madera, papel reciclado y plastoformo en la elaboración de bloques ecológicos, buscando aprovechar materiales recuperables y explorar nuevas posibilidades de aplicación en la construcción.</p>
+            <div className="objective-note"><strong>Objetivo: transformar materiales de desecho en un recurso constructivo, evaluando su comportamiento físico, mecánico y ambiental.</strong></div>
           </div>
-        </div>
-        <div className="context-band">
-          <div className="context-icon"><CircleHelp size={20} /></div>
-          <p>El contexto sobre residuos y bloques convencionales requiere datos locales con fuentes verificables. <strong>Este sitio no publica cifras sin referencia.</strong></p>
-          <span className="mono">DATOS CONTEXTUALES / PENDIENTES</span>
         </div>
       </section>
 

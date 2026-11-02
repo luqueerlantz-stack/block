@@ -182,16 +182,11 @@ a { color: inherit; }
 .hero-index { position:absolute; right:22px; top:24px; font-size:9px; color:#66665f; writing-mode:vertical-rl; }
 .section-pad { padding-top:110px; padding-bottom:110px; }
 .motivation-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:10%; margin-top:34px; align-items:start; }
+.motivation-title { max-width:540px; font-size:clamp(2.35rem,4vw,3.55rem); line-height:1.04; }
 .motivation-text { max-width:620px; font-size:17px; line-height:1.65; color:#454640; }
-.motivation-text > p:first-child { margin-top:0; color:var(--ink); font-size:20px; }
+.motivation-text > p:first-child { margin-top:0; color:var(--ink); }
 .objective-note { display:flex; flex-direction:column; gap:11px; padding:17px 20px; margin-top:28px; border-left:2px solid var(--leaf); background:#f1f0e9; }
-.objective-note .mono { color:var(--leaf); font-size:10px; }
 .objective-note strong { max-width:490px; font-size:16px; line-height:1.4; font-weight:500; color:var(--ink); }
-.context-band { display:flex; align-items:center; gap:17px; margin-top:62px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:19px 0; }
-.context-icon { display:grid; place-items:center; flex:0 0 36px; height:36px; color:var(--leaf); border:1px solid var(--line); }
-.context-band p { margin:0; flex:1; color:#55564f; font-size:13px; line-height:1.5; }
-.context-band strong { color:var(--ink); }
-.context-band > .mono { font-size:9px; color:#696961; }
 .materials-section,.prototypes-section,.gallery-section { background:#f1f0e9; }
 .section-heading-row { display:flex; align-items:end; justify-content:space-between; gap:30px; margin-top:28px; margin-bottom:43px; }
 .muted-title { color:#8c8d82; }
@@ -462,11 +457,8 @@ a { color: inherit; }
   .section-pad { padding-top:74px; padding-bottom:74px; }
   .motivation-grid,.team-layout,.faq-layout,.impact-layout,.application-grid,.contact-layout { grid-template-columns:1fr; gap:28px; }
   .motivation-grid { margin-top:25px; }
+  .motivation-title { font-size:clamp(2rem,9vw,3rem); }
   .motivation-text { font-size:15px; }
-  .motivation-text > p:first-child { font-size:17px; }
-  .context-band { flex-wrap:wrap; margin-top:36px; gap:12px; }
-  .context-band p { min-width:calc(100% - 55px); }
-  .context-band > .mono { margin-left:48px; font-size:8px; }
   .section-heading-row,.tests-header,.comparison-head,.gallery-head { align-items:flex-start; flex-direction:column; margin-top:22px; margin-bottom:30px; gap:17px; }
   .section-aside { font-size:13px; }
   .material-grid { grid-template-columns:1fr 1fr; }
