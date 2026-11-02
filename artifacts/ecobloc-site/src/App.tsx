@@ -1,8 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import {
-  ArrowDown, ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Beaker,
+  ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Beaker,
   ChevronDown, ClipboardList, FlaskConical, Layers3,
-  Leaf, Menu, MoveUpRight, Recycle, ShieldAlert, X,
+  Leaf, Menu, Recycle, ShieldAlert, X,
 } from 'lucide-react';
 
 const navItems = [
@@ -133,7 +133,7 @@ function App() {
         <div className="section-wrap hero-layout">
           <div className="hero-copy">
             <div className="eyebrow hero-label"><span className="live-dot" /> Investigación material / ficha 01</div>
-            <h1 data-testid="text-hero-title">ECO<span>BLOC</span><sup>*</sup></h1>
+            <h1 data-testid="text-hero-title">ECO<span>BLOC</span></h1>
             <div className="hero-subtitle"><span aria-hidden="true">{typedTagline}<i className="typing-caret" /></span><span className="sr-only">Investigación de un bloque experimental con materiales recuperados y desempeño por comprobar.</span></div>
             <p className="hero-line">Construyendo con<br /><em>lo que otros desechan.</em></p>
             <p className="hero-intro">Una investigación estudiantil sobre una mezcla de yeso, papel reciclado, EPS y aserrín. Documentamos lo que sabemos, y señalamos lo que aún falta medir.</p>
@@ -141,25 +141,35 @@ function App() {
               <a className="btn-primary" href="#proceso" data-testid="button-view-process">Explorar el proceso <ArrowDownRight size={17} /></a>
               <a href="#ensayos" className="text-link" data-testid="link-results">Estado de los ensayos <ArrowRight size={15} /></a>
             </div>
-            <p className="provisional mono">* Nombre provisional. No es un producto certificado.</p>
+            <p className="hero-product-type">Bloque ecológico</p>
           </div>
           <div className="hero-visual">
-            <div className="visual-meta"><span className="mono">MUESTRA / 00</span><span className="status-pill"><span /> Imagen ilustrativa</span></div>
-            <button className="specimen-button" type="button" onClick={() => setGalleryOpen(true)} aria-label="Ampliar fotografía del prototipo de ECOBLOC" data-testid="button-open-hero-image">
-              <img src="/ecobloc-prototype.jpg" alt="Prototipo de bloque con fibras de papel, partículas claras de EPS y aserrín visibles en su superficie" />
-              <span className="image-expand mono">VER MUESTRA <MoveUpRight size={13} /></span>
-            </button>
-            <div className="visual-caption"><span className="mono">FIG. 01</span><span>Prototipo experimental · imagen ilustrativa del material</span></div>
-            <div className="specimen-stamp"><span>EB</span><small>LAB<br />NOTES</small></div>
+            <img src="/images/ecobloc-hero.jpg" alt="Bloque ecológico ECOBLOC recién elaborado, con cavidades y superficie de mezcla visible" />
           </div>
           <div className="hero-bottom">
-            <div><span className="eyebrow">Peso por bloque</span><strong>Por medir</strong><small>Masa por registrar</small></div>
-            <div><span className="eyebrow">Material recuperado</span><strong>Por calcular</strong><small>Porcentaje pendiente</small></div>
-            <div><span className="eyebrow">Fraguado</span><strong>Por observar</strong><small>Tiempo por documentar</small></div>
-            <a href="#motivacion" aria-label="Desplazarse a motivación" className="scroll-cue"><ArrowDown size={19} /></a>
+            <article className="hero-indicator" data-testid="indicator-peso-inicial">
+              <span className="eyebrow">PESO INICIAL</span>
+              <span className="indicator-subtitle">Recién colocado</span>
+              <img src="/images/ecobloc-peso-inicial.jpg" alt="Muestras cilíndricas de mezcla recién colocadas para registrar su peso inicial" loading="lazy" />
+              <strong>18–20 kg</strong>
+              <p>Peso registrado inmediatamente después de elaborar y colocar la mezcla en el molde.</p>
+            </article>
+            <article className="hero-indicator" data-testid="indicator-proceso-secado">
+              <span className="eyebrow">PROCESO DE SECADO</span>
+              <span className="indicator-subtitle">Después de una semana</span>
+              <img src="/images/ecobloc-secado.jpg" alt="Muestras cilíndricas de ECOBLOC tras una semana de secado" loading="lazy" />
+              <strong>10–12 kg</strong>
+              <p>Peso registrado después de siete días de reposo.</p>
+            </article>
+            <article className="hero-indicator" data-testid="indicator-resultado-final">
+              <span className="eyebrow">RESULTADO FINAL</span>
+              <span className="indicator-subtitle">Bloque estabilizado</span>
+              <img src="/images/ecobloc-final.jpg" alt="Bloques ECOBLOC estabilizados al finalizar el proceso de secado" loading="lazy" />
+              <strong>8 kg</strong>
+              <p>Peso final registrado después del proceso de secado y estabilización.</p>
+            </article>
           </div>
         </div>
-        <div className="hero-index mono">EB—001 / REV. 0.1</div>
       </section>
 
       <section id="motivacion" className="section-wrap motivation section-pad">
