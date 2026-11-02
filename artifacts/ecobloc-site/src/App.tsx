@@ -17,10 +17,10 @@ const rotatingTaglines = [
 ];
 
 const materials = [
-  { id: '01', name: 'Yeso', role: 'Matriz aglutinante', detail: 'Componente mineral que da forma a la mezcla.', origin: 'Origen por documentar', symbol: 'Y' },
-  { id: '02', name: 'Papel reciclado', role: 'Fibra incorporada', detail: 'Papel recuperado; su preparación se registra en el proceso.', origin: 'Fuente de recolección por documentar', symbol: 'P' },
-  { id: '03', name: 'EPS / plastoformo', role: 'Inclusión liviana', detail: 'Bolitas de poliestireno expandido incorporadas como agregado.', origin: 'Fuente de obtención por documentar', symbol: 'E' },
-  { id: '04', name: 'Aserrín', role: 'Relleno orgánico', detail: 'Residuo de madera cuya especie y granulometría deben registrarse.', origin: 'Fuente de recolección por documentar', symbol: 'A' },
+  { id: '01', name: 'Yeso', role: 'MATRIZ AGLUTINANTE', detail: 'Material mineral adquirido comercialmente. Constituye la matriz aglutinante de la mezcla y proporciona cohesión a sus componentes.', origin: 'Adquisición comercial.', proportion: '3 litros — 46,15 %.', preparation: 'Mezclado con agua durante la elaboración de la mezcla.', image: '/images/material-yeso.jpg', alt: 'Yeso mineral en polvo dispuesto en un recipiente durante la preparación de ECOBLOC.' },
+  { id: '02', name: 'Papel reciclado', role: 'FIBRA INCORPORADA', detail: 'Papel usado y recuperado, sometido a un proceso de trituración, remojo y licuado para su incorporación a la mezcla.', origin: 'Papel usado y recuperado.', proportion: '0,5 litros — 7,69 %.', preparation: 'Triturado, remojado y licuado hasta obtener una pulpa.', image: '/images/material-papel-reciclado.jpg', alt: 'Pulpa de papel reciclado preparada en una licuadora para incorporarse a la mezcla.' },
+  { id: '03', name: 'EPS / plastoformo', role: 'AGREGADO LIGERO', detail: 'Pequeñas bolitas de poliestireno expandido incorporadas a la mezcla como agregado ligero.', origin: 'Adquisición comercial en formato de pequeñas bolitas.', proportion: '1 litro — 15,38 %.', preparation: 'Incorporación directa de las bolitas de EPS.', image: '/images/material-eps.jpg', alt: 'Pequeñas bolitas blancas de EPS utilizadas como agregado ligero en ECOBLOC.' },
+  { id: '04', name: 'Aserrín', role: 'RELLENO ORGÁNICO', detail: 'Residuo de madera recuperado de carpinterías y talleres, seleccionado mediante tamizado para aprovechar sus partículas más finas.', origin: 'Carpinterías y talleres de madera.', proportion: '0,5 litros — 7,69 %.', preparation: 'Tamizado y selección de las partículas más finas.', image: '/images/material-aserrin.jpg', alt: 'Aserrín recuperado y seleccionado, con partículas finas visibles sobre una superficie oscura.' },
 ];
 
 const steps = [
@@ -173,7 +173,7 @@ function App() {
       </section>
 
       <section id="motivacion" className="section-wrap motivation section-pad">
-        <div className="section-kicker">00 / Punto de partida</div>
+        <div className="section-kicker">Punto de partida</div>
         <div className="motivation-grid">
           <h2 className="section-title motivation-title">Revalorización de residuos para una construcción más sostenible.</h2>
           <div className="motivation-text">
@@ -186,37 +186,37 @@ function App() {
 
       <section id="materiales" className="materials-section section-pad">
         <div className="section-wrap">
-          <div className="section-kicker">01 / Materia prima</div>
+          <div className="section-kicker">Materia prima</div>
           <div className="section-heading-row">
-            <h2 className="section-title">Cuatro componentes.<br /><span className="muted-title">Una mezcla por definir.</span></h2>
-            <p className="section-aside">Las funciones son hipótesis de formulación, no resultados medidos. Las proporciones y fuentes se completan con la bitácora real.</p>
+            <h2 className="section-title">Cuatro componentes.<br /><span className="muted-title">mejor resultado en práctica.</span></h2>
+            <p className="section-aside">Las proporciones corresponden a las cantidades volumétricas medidas durante la preparación experimental, utilizando una jarra de 1 litro como unidad de referencia. No representan porcentajes en masa.</p>
           </div>
           <div className="material-grid">
             {materials.map((item) => <article className="material-card" key={item.id} data-testid={`card-material-${item.id}`}>
-              <div className={`material-illustration material-${item.id}`}><span>{item.symbol}</span><i /><b /></div>
+              <div className="material-illustration"><img src={item.image} alt={item.alt} loading="lazy" /></div>
               <div className="material-info">
                 <div className="material-top"><span className="mono">{item.id} / COMPONENTE</span><span className="material-dot" /></div>
                 <h3>{item.name}</h3>
                 <span className="role-tag">{item.role}</span>
                 <p>{item.detail}</p>
                 <div className="material-data"><span>ORIGEN</span><strong>{item.origin}</strong></div>
-                <div className="material-data"><span>PROPORCIÓN</span><strong className="pending-value">Por documentar</strong></div>
+                <div className="material-data"><span>PROPORCIÓN</span><strong>{item.proportion}</strong></div>
+                <div className="material-data"><span>PREPARACIÓN</span><strong>{item.preparation}</strong></div>
               </div>
             </article>)}
           </div>
           <div className="composition-panel">
-            <div className="composition-copy"><span className="eyebrow">Composición de la mezcla</span><h3>Sin receta validada,<br />no hay porcentajes que mostrar.</h3><p>Completar con cantidades reales por peso o volumen y especificar la base de cálculo.</p></div>
-            <div className="composition-graphic" aria-label="Gráfico no disponible hasta completar las proporciones">
-              <div className="composition-ring"><div><strong>—</strong><span>RECETA<br />PENDIENTE</span></div></div>
-              <div className="composition-legend">{materials.map((m, i) => <span key={m.id}><i className={`legend-dot legend-${i}`} />{m.name}<b>—</b></span>)}</div>
+            <div className="composition-copy"><span className="eyebrow">Composición de la mezcla</span><h3>Dosificación volumétrica<br />de la preparación.</h3><p>Los valores registrados suman 76,91 %. El volumen restante no está especificado.</p></div>
+            <div className="composition-graphic" aria-label="Dosificación volumétrica registrada para los cuatro componentes">
+              <div className="composition-legend">{materials.map((m) => <div className="composition-entry" key={m.id}><span>{m.name}</span><strong>{m.proportion}</strong></div>)}</div>
             </div>
-            <span className="mono composition-stamp">DATOS INSUFICIENTES</span>
+            <span className="mono composition-stamp">VOLUMEN<br />NO MASA</span>
           </div>
         </div>
       </section>
 
       <section id="proceso" className="section-wrap process-section section-pad">
-        <div className="section-kicker">02 / Método</div>
+        <div className="section-kicker">Método</div>
         <div className="section-heading-row">
           <h2 className="section-title">Del residuo<br />al prototipo.</h2>
           <p className="section-aside">Secuencia de trabajo propuesta para la documentación. Completar tiempos y herramientas con los registros de fabricación.</p>
@@ -256,7 +256,7 @@ function App() {
 
       <section id="prototipos" className="prototypes-section section-pad">
         <div className="section-wrap">
-          <div className="section-kicker">03 / Iteraciones</div>
+          <div className="section-kicker">Iteraciones</div>
           <div className="section-heading-row">
             <h2 className="section-title">Prototipos y<br />aprendizajes.</h2>
             <p className="section-aside">Cada iteración necesita receta, registro fotográfico y observaciones comparables. No se atribuyen mejoras sin evidencia.</p>
@@ -275,7 +275,7 @@ function App() {
       </section>
 
       <section id="ensayos" className="section-wrap tests-section section-pad">
-        <div className="section-kicker">04 / Verificación</div>
+        <div className="section-kicker">Verificación</div>
         <div className="tests-header"><div><h2 className="section-title">Lo que falta<br />poner a prueba.</h2><p className="section-aside">No se han documentado ensayos con resultados verificables para esta publicación.</p></div><div className="evidence-badge"><FlaskConical size={20} /><span className="mono">RESULTADOS<br />PUBLICADOS</span><strong>NINGUNO</strong></div></div>
         <div className="test-status">
           <div className="test-status-top"><span className="status-outline"><span /> SIN ENSAYOS DOCUMENTADOS</span><span className="mono">ESTADO DE EVIDENCIA / ACTUALIZAR CON REGISTROS</span></div>
@@ -289,7 +289,7 @@ function App() {
 
       <section id="comparativa" className="comparison-section section-pad">
         <div className="section-wrap">
-          <div className="section-kicker">05 / Referencia</div>
+          <div className="section-kicker">Referencia</div>
           <div className="comparison-head"><h2 className="section-title">Comparar también<br />es investigar.</h2><div className="compare-controls" role="group" aria-label="Formato de comparación">
             <button type="button" className={compareMode === 'tabla' ? 'selected' : ''} onClick={() => setCompareMode('tabla')} aria-pressed={compareMode === 'tabla'} data-testid="button-compare-table">Tabla</button>
             <button type="button" className={compareMode === 'resumen' ? 'selected' : ''} onClick={() => setCompareMode('resumen')} aria-pressed={compareMode === 'resumen'} data-testid="button-compare-summary">Resumen</button>
@@ -305,7 +305,7 @@ function App() {
       <section id="impacto" className="impact-section section-pad">
         <div className="section-wrap impact-layout">
           <div>
-            <div className="section-kicker">06 / Circularidad</div>
+            <div className="section-kicker">Circularidad</div>
             <h2 className="section-title">El impacto no se<br />presume. Se mide.</h2>
             <p className="impact-intro">Incorporar residuos en un prototipo no basta para demostrar un beneficio ambiental. Hace falta cuantificar, comparar y explicar el sistema.</p>
             <div className="impact-questions">
@@ -325,7 +325,7 @@ function App() {
       </section>
 
       <section id="aplicaciones" className="section-wrap application-section section-pad">
-        <div className="section-kicker">07 / Escenarios de uso</div>
+        <div className="section-kicker">Escenarios de uso</div>
         <div className="section-heading-row"><h2 className="section-title">Pensar usos.<br /><span className="muted-title">Marcar límites.</span></h2><p className="section-aside">Las aplicaciones de esta lista son escenarios para investigar, no recomendaciones de construcción.</p></div>
         <div className="application-grid">
           <div className="application-list">
@@ -337,7 +337,7 @@ function App() {
 
       <section id="galeria" className="gallery-section section-pad">
         <div className="section-wrap">
-          <div className="section-kicker">08 / Registro visual</div>
+          <div className="section-kicker">Registro visual</div>
           <div className="gallery-head"><h2 className="section-title">La materia,<br />sin maquillaje.</h2><p>Una imagen de muestra disponible. Las fotografías de proceso y las iteraciones reales se incorporan desde el archivo del proyecto.</p></div>
           <div className="gallery-rail" data-testid="gallery-rail" aria-label="Galería de imágenes">
             <button className="gallery-image-card" type="button" onClick={() => setGalleryOpen(true)} data-testid="button-gallery-specimen">
@@ -351,7 +351,7 @@ function App() {
       </section>
 
       <section id="equipo" className="section-wrap team-section section-pad">
-        <div className="section-kicker">09 / Autoría</div>
+        <div className="section-kicker">Autoría</div>
         <div className="team-layout"><div><h2 className="section-title">Un proyecto<br />en construcción.</h2><p>La información del equipo se presenta como campo editorial pendiente. No se publican nombres o afiliaciones sin confirmación.</p></div>
           <div className="team-placeholder"><div className="team-avatar">+</div><div><span className="mono">EQUIPO / AUTORÍA</span><h3>Nombres por incorporar</h3><p>Roles, institución y asesoría: completar con información confirmada.</p></div><ArrowUpRight size={17} /></div>
         </div>
@@ -359,7 +359,7 @@ function App() {
 
       <section id="preguntas" className="faq-section section-pad">
         <div className="section-wrap faq-layout">
-          <div><div className="section-kicker">10 / Preguntas abiertas</div><h2 className="section-title">Lo que sabemos.<br />Y lo que no.</h2><p>Respuestas directas, sin atribuir propiedades que todavía no se han comprobado.</p></div>
+          <div><div className="section-kicker">Preguntas abiertas</div><h2 className="section-title">Lo que sabemos.<br />Y lo que no.</h2><p>Respuestas directas, sin atribuir propiedades que todavía no se han comprobado.</p></div>
           <div className="faq-list">
             {faqs.map(([question, answer], index) => <article className="faq-item" key={question}>
               <h3><button type="button" aria-expanded={faqOpen === index} aria-controls={`faq-answer-${index}`} onClick={() => setFaqOpen(faqOpen === index ? null : index)} data-testid={`button-faq-${index + 1}`}><span className="mono">{String(index + 1).padStart(2, '0')}</span>{question}<ChevronDown className={faqOpen === index ? 'chevron-open' : ''} size={18} /></button></h3>
@@ -371,7 +371,7 @@ function App() {
 
       <section id="contacto" className="contact-section section-pad">
         <div className="section-wrap contact-layout">
-          <div className="contact-copy"><div className="section-kicker">11 / Conversación</div><h2>¿Quieres probar<br />o colaborar con<br />este material?</h2><p>La investigación mejora con preguntas, referencias y acompañamiento técnico.</p><div className="contact-register"><span className="mono">CORREO /</span><span>Por configurar</span><span className="mono">RESPUESTA /</span><span>Sin plazo publicado</span></div></div>
+          <div className="contact-copy"><div className="section-kicker">Conversación</div><h2>¿Quieres probar<br />o colaborar con<br />este material?</h2><p>La investigación mejora con preguntas, referencias y acompañamiento técnico.</p><div className="contact-register"><span className="mono">CORREO /</span><span>Por configurar</span><span className="mono">RESPUESTA /</span><span>Sin plazo publicado</span></div></div>
           <form className="contact-form" onSubmit={submitContact} noValidate data-testid="form-contact">
             <div className="form-heading"><span className="mono">FORMULARIO DE INTERÉS</span><span className="form-required">* Campos obligatorios</span></div>
             <div className="form-row">
